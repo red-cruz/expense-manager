@@ -18,7 +18,10 @@ class RoleSeeder extends Seeder
           'name' => 'Admin',
           'description' => 'Administrator'
         ]);
-        
-        Role::factory(2)->create();
+        Role::factory()->create([
+          'name' => 'User',
+          'description' => 'User'
+        ]);
+        // Role::factory(2)->create();
     }
 }

@@ -1,10 +1,11 @@
 {
-  "name": "laravel/laravel",
+  "name": "laravel/expense-manager",
   "type": "project",
-  "description": "The skeleton application for the Laravel framework.",
+  "description": "A simple Laravel application that tracks expenses.",
   "keywords": [
     "laravel",
-    "framework"
+    "framework",
+    "expenses"
   ],
   "license": "MIT",
   "require": {
