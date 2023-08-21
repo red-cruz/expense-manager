@@ -16,7 +16,7 @@ DataTable.use(DataTablesCore);
 let dt;
 const table = ref();
 const selectedRow = ref(null);
-const roles = usePage().props.roles;
+let roles = usePage().props.roles;
 const data = ref(
   Object.values(roles).map((role) => {
     return [role.name, role.description, role.created_at];
@@ -34,8 +34,9 @@ onMounted(() => {
   dt = table.value.dt;
 });
 
-function create({ name, description, created_at }) {
-  data.value.push([name, description, created_at]);
+function create(role) {
+  roles.push(role);
+  data.value.push([role.name, role.description, role.created_at]);
 }
 function update(role) {
   let idx = data.value.indexOf(role);
