@@ -16,7 +16,7 @@ const emit = defineEmits(['update-expense']);
 let dt;
 const table = ref();
 const selectedRow = ref(null);
-const data = ref(usePage().props.expenses);
+const data = ref(usePage().props.user.expenses);
 const options = {
   searching: false,
   info: false,
@@ -25,14 +25,15 @@ const options = {
   select: true,
   columns: [
     { data: 'id' },
-    { data: 'expense' },
-    { data: 'description' },
+    { data: 'expense_category.name' },
+    { data: 'amount' },
+    { data: 'entry_date' },
     { data: 'created_at' },
     { data: 'updated_at' },
   ],
   columnDefs: [
     {
-      targets: [0, 4],
+      targets: [0, 5],
       visible: false,
     },
   ],
@@ -79,7 +80,8 @@ function showUpdateModal() {
         <tr>
           <th>Id</th>
           <th>Expense Category</th>
-          <th>Description</th>
+          <th>Amount</th>
+          <th>Entry Date</th>
           <th>Created at</th>
           <th>Updated at</th>
         </tr>

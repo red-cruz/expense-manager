@@ -13,11 +13,14 @@ class ExpenseController extends Controller
     public function index()
     {
         $user = User::with(['role', 'expenses'])->find(Auth::id());
-        foreach($user->expenses as $expenses) {
+        foreach($user->expenses as $key => $expenses) {
             $expenses->expenseCategory;
         }
         $user = $user->toArray();
         $user['role'] = $user['role']['name'];
+        foreach ($user['expenses'] as $key => $expense) {
+            $user['expenses'][$key]['created_at'] = date("Y-m-d", strtotime($expense['created_at']));
+        }
 
         return Inertia::render('Expenses', [
           'user' => $user
