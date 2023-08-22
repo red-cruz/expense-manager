@@ -43,37 +43,97 @@ class ExpenseController extends Controller
 
     public function create(Request $request)
     {
-        $expense = new Expense();
-        $expense->user_id = Auth::id();
-        $expense->expense_category_id = $request->expense_category_id;
-        $expense->amount = $request->amount;
-        $expense->entry_date = $request->entry_date;
-        $expense->save();
-        $expense->expenseCategory;
-        $expense = $expense->toArray();
-        $expense['created_at'] = date("Y-m-d", strtotime($expense['created_at']));
-        return response()->json(['message' => 'Expense successfully added', 'expense' => $expense]);
+        try {
+            $validated = $request->validate([
+              'expense_category_id' => 'required|exists:expense_categories,id',
+              'amount' => 'required|Integer|min:1',
+              'entry_date' => 'required|date',
+            ]);
+
+            $expense = new Expense();
+            $expense->user_id = Auth::id();
+            $expense->expense_category_id = $validated['expense_category_id'];
+            $expense->amount = $validated['amount'];
+            $expense->entry_date = $validated['entry_date'];
+            $expense->save();
+            $expense->expenseCategory;
+            $expense = $expense->toArray();
+
+            $expense['created_at'] = date("Y-m-d", strtotime($expense['created_at']));
+
+            return response()->json([
+              'message' => '$'.$validated['amount'].' "'.$expense['expense_category']['name'].'" expense has added',
+              'expense' => $expense
+            ]);
+
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
+        } catch (\Throwable $th) {
+            return response()->json([
+              'title' => 'Error: '.$th->getMessage()
+            ], 500);
+        }
     }
 
     public function update(Request $request)
     {
-        $expense = Expense::find($request->id);
-        $expense->expense_category_id = $request->expense_category_id;
-        $expense->amount = $request->amount;
-        $expense->entry_date = $request->entry_date;
-        $expense->save();
-        $expense->expenseCategory;
-        $expense = $expense->toArray();
-        $expense['created_at'] = date("Y-m-d", strtotime($expense['created_at']));
-        return response()->json(['message' => 'Expense successfully added', 'expense' => $expense]);
+        try {
+            $validated = $request->validate([
+              'id' => 'exists:expenses,id',
+              'expense_category_id' => 'required|exists:expense_categories,id',
+              'amount' => 'required|Integer|min:1',
+              'entry_date' => 'required|date',
+            ]);
+            $expense = Expense::find($request->id);
+            $expense->expense_category_id = $validated['expense_category_id'];
+            $expense->amount = $validated['amount'];
+            $expense->entry_date = $validated['entry_date'];
+            $expense->save();
+            $expense->expenseCategory;
+            $expense = $expense->toArray();
+            $expense['created_at'] = date("Y-m-d", strtotime($expense['created_at']));
+
+            return response()->json([
+              'message' => '$'.$validated['amount'].' "'.$expense['expense_category']['name'].'" expense has updated',
+              'expense' => $expense
+            ]);
+
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
+        } catch (\Throwable $th) {
+            return response()->json([
+              'title' => 'Error: '.$th->getMessage()
+            ], 500);
+        }
     }
 
     public function delete(Request $request)
     {
-        $expenses = Expense::find($request->deleteId);
-        $expenses->delete();
-        return response()->json([
-          'message' => 'Successfully deleted'
-        ]);
+        try {
+            $validated = $request->validate([
+              'deleteId' => 'exists:expenses,id',
+            ]);
+            $expense = Expense::find($validated['deleteId']);
+            $expense->delete();
+            return response()->json([
+              'message' => '$'.$expense->amount.' expense has been deleted'
+            ]);
+
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
+        } catch (\Throwable $th) {
+            return response()->json([
+              'title' => 'Error: '.$th->getMessage()
+            ], 500);
+        }
     }
 }
