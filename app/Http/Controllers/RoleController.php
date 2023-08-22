@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -32,32 +33,68 @@ class RoleController extends Controller
 
     public function create(Request $request)
     {
-        $role = new Role();
-        $role->name = $request->name;
-        $role->description = $request->description;
-        $role->save();
-        $role = $role->toArray();
-        $role['created_at'] = date("Y-m-d", strtotime($role['created_at']));
-        return response()->json(['message' => 'Role successfully added', 'role' => $role]);
+        try {
+            $validated = $request->validate([
+              'name' => 'required|unique:roles|max:255',
+              'description' => 'required|max:255',
+            ]);
+            $role = new Role();
+            $role->name = $validated['name'];
+            $role->description = $validated['description'];
+            $role->save();
+            $role = $role->toArray();
+            $role['created_at'] = date("Y-m-d", strtotime($role['created_at']));
+            return response()->json([
+              'message' => $role['name'].' role has been added',
+              'role' => $role
+            ]);
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json(['title' => 'Invalid input', 'errors' => $err->errors()], 422);
+        } catch (\Throwable $th) {
+            return response()->json(['title' => 'Error: '.$th->getMessage()], 500);
+        }
     }
 
     public function update(Request $request)
     {
-        $role = Role::find($request->id);
-        $role->name = $request->name;
-        $role->description = $request->description;
-        $role->save();
-        $role = $role->toArray();
-        $role['created_at'] = date("Y-m-d", strtotime($role['created_at']));
-        return response()->json(['message' => 'Role successfully updated', 'role' => $role]);
+        try {
+            $validated = $request->validate([
+              'id' => 'exists:roles,id',
+              'name' => 'required|unique:roles|max:255',
+              'description' => 'required|max:255',
+            ]);
+            $role = Role::find($validated['id']);
+            $role->name = $validated['name'];
+            $role->description = $validated['description'];
+            $role->save();
+            $role = $role->toArray();
+            $role['created_at'] = date("Y-m-d", strtotime($role['created_at']));
+            return response()->json([
+              'message' => $role['name'].' has been updated',
+              'role' => $role
+            ]);
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json(['title' => 'Invalid input', 'errors' => $err->errors()], 422);
+        } catch (\Throwable $th) {
+            return response()->json(['title' => 'Error: '.$th->getMessage()], 500);
+        }
     }
 
     public function delete(Request $request)
     {
-        $role = Role::find($request->deleteId);
-        $role->delete();
-        return response()->json([
-          'message' => 'Successfully deleted'
-        ]);
+        try {
+            $validated = $request->validate([
+              'deleteId' => 'exists:roles,id',
+            ]);
+            $role = Role::find($validated['deleteId']);
+            $role->delete();
+            return response()->json([
+              'message' => $role->name.' has been deleted'
+            ]);
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json(['title' => 'Invalid input', 'errors' => $err->errors()], 422);
+        } catch (\Throwable $th) {
+            return response()->json(['title' => 'Error: '.$th->getMessage()], 500);
+        }
     }
 }

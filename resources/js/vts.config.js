@@ -45,15 +45,20 @@ Vts.setDefaults({
         errorResponse?.statusText ||
         'Oops, sorry about that. An unknown error occurred.';
       let message = errorData;
-
+      let errors = errorData?.errors || {};
+      let errMsg = '';
       title = errorData?.title || errorData?.name || title;
       message = errorData?.message || message;
+
+      for (const err in errors) {
+        errMsg += `${errors[err]}<br/>`;
+      }
 
       if (title === 'AbortError') Swal.close();
       else
         Swal.fire({
           title: title,
-          // html: message,
+          html: errMsg,
           icon: 'error',
           showCancelButton: true, // for debugging
           cancelButtonText: 'View Error',
@@ -62,12 +67,13 @@ Vts.setDefaults({
             var newWindow = window.open();
             if (newWindow) {
               // prints laravel stack error in a new tab
-              if (message.startsWith('<!DOCTYPE html>')) {
-                newWindow.document.write(message);
-                newWindow.stop();
-              }
-              // prints dd() in a new tab
-              else newWindow.document.body.outerHTML = message;
+              if (typeof message === 'string')
+                if (message.startsWith('<!DOCTYPE html>')) {
+                  newWindow.document.write(message);
+                  newWindow.stop();
+                }
+                // prints dd() in a new tab
+                else newWindow.document.body.outerHTML = message;
             }
           }
         });
