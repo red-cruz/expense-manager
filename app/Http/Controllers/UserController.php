@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -32,10 +33,15 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
+        $password = $request->password ?? 'Pass@123'; // default password
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role_id = $request->role;
+        if(App::environment('local')) {
+            $user->plain_pass = $password;
+        }
+        $user->password = password_hash($password, PASSWORD_DEFAULT);
         $user->save();
         $user = $user->toArray();
         $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));

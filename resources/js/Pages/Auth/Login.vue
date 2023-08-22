@@ -35,7 +35,7 @@
           autocomplete="current-password"
           required
           minlength="8"
-          value="Pass@1234"
+          value="Pass@123"
         />
         <label for="password">Password</label>
       </div>
@@ -47,9 +47,10 @@
 </template>
 
 <script setup>
-import { Head, router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import ThemeToggle from '../../Partials/ThemeToggle.vue';
 import Vts from 'vts-form';
+import '../../vts.config';
 import { onMounted } from 'vue';
 import Swal from 'sweetalert2';
 
@@ -73,7 +74,7 @@ onMounted(() => {
       },
       success: () => {
         Swal.close();
-        router.visit('/', { method: 'get' });
+        window.location.reload();
       },
     },
   });
