@@ -4,6 +4,8 @@
     :action="'/role:update'"
     :title="'Update Role'"
     :submit="'Update'"
+    :withDelete="true"
+    :roleId="selectedRow?.id"
   >
     <input type="hidden" name="id" :value="selectedRow?.id" />
     <div class="align-items-center">
@@ -42,11 +44,6 @@
         </div>
       </div>
     </div>
-    <template #deleteBtn>
-      <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">
-        Delete
-      </button>
-    </template>
   </Modal>
 </template>
 
@@ -55,7 +52,7 @@ import { onMounted, ref } from 'vue';
 import Modal from './Modal.vue';
 import Vts from 'vts-form';
 import Swal from 'sweetalert2';
-import { closeModal } from '../helpers';
+import { closeModal, notify } from '../helpers';
 const updateRole = ref(null);
 const emit = defineEmits(['role-updated']);
 defineProps({ selectedRow: Object });
@@ -63,19 +60,17 @@ defineProps({ selectedRow: Object });
 onMounted(() => {
   updateRole.value = new Vts('update-role-form', {
     ajax: {
-      success: ({ title, message, role }, response, form) => {
-        Swal.fire({
-          title: title,
-          html: message,
-          icon: 'success',
-        });
+      success: ({ message, role }, response, form) => {
+        notify({ text: message });
         form.classList.remove('was-validated');
         form.reset();
         closeModal('update-role-modal');
         emit('role-updated', role);
+        Swal.close();
       },
     },
   });
+  console.log(updateRole.value);
 });
 </script>
 

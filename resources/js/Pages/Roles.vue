@@ -100,6 +100,10 @@ function showUpdateModal() {
     </div>
   </div>
   <RoleCreate @role-created="create" />
-  <RoleUpdate :selectedRow="selectedRow" @role-updated="update" />
+  <RoleUpdate
+    :selectedRow="selectedRow"
+    @role-updated="update"
+    @role-deleted="remove"
+  />
 </template>
 <style></style>

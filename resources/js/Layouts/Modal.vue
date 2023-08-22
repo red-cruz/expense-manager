@@ -10,7 +10,16 @@
             <slot></slot>
           </div>
           <div class="modal-footer justify-content-between">
-            <slot name="deleteBtn">&nbsp;</slot>
+            <button
+              v-if="withDelete"
+              @click="deleteRole"
+              type="button"
+              class="btn btn-danger me-2"
+              data-bs-dismiss="modal"
+            >
+              Delete
+            </button>
+            <span v-else>&nbsp;</span>
             <div>
               <button
                 type="button"
@@ -31,13 +40,56 @@
 </template>
 
 <script setup>
+import Swal from 'sweetalert2';
 import { defineProps } from 'vue';
-defineProps({
+import { notify } from '../helpers';
+const props = defineProps({
   title: String,
+  withDelete: Boolean,
+  roleId: Number,
   id: { type: String, required: true },
   action: { type: String, required: true },
   submit: { type: String, default: 'Save' },
 });
+
+const emit = defineEmits(['role-deleted']);
+
+function deleteRole() {
+  Swal.fire({
+    title: 'Are you sure you want to delete this item?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'No',
+  }).then(function (isConfirm) {
+    if (isConfirm.isConfirmed) {
+      fetch('/role:delete', {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute('content'),
+        },
+        method: 'post',
+        body: JSON.stringify({ roleId: props.roleId }),
+      }).then(async (response) => {
+        try {
+          const data = await response.json();
+          notify({
+            text: data.title,
+            type: data?.type || 'success',
+          });
+          emit('role-deleted', props.roleId);
+        } catch (error) {
+          notify({
+            text: 'An unexpected error occured.',
+            type: 'error',
+          });
+        }
+      });
+    }
+  });
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss"></style>

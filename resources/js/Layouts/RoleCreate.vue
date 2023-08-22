@@ -42,23 +42,20 @@ import { onMounted, ref } from 'vue';
 import Modal from './Modal.vue';
 import Vts from 'vts-form';
 import Swal from 'sweetalert2';
-import { closeModal } from '../helpers';
+import { closeModal, notify } from '../helpers';
 const addRole = ref(null);
 const emit = defineEmits(['role-created']);
 
 onMounted(() => {
   addRole.value = new Vts('add-role-form', {
     ajax: {
-      success: ({ title, message, role }, response, form) => {
-        Swal.fire({
-          title: title,
-          html: message,
-          icon: 'success',
-        });
+      success: ({ message, role }, response, form) => {
+        notify({ text: message });
         form.classList.remove('was-validated');
         form.reset();
         closeModal('add-role-modal');
         emit('role-created', role);
+        Swal.close();
       },
     },
   });

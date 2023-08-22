@@ -38,7 +38,7 @@ class RoleController extends Controller
         $role->save();
         $role = $role->toArray();
         $role['created_at'] = date("Y-m-d", strtotime($role['created_at']));
-        return response()->json(['title' => 'Role successfully added', 'role' => $role]);
+        return response()->json(['message' => 'Role successfully added', 'role' => $role]);
     }
 
     public function update(Request $request)
@@ -49,6 +49,16 @@ class RoleController extends Controller
         $role->save();
         $role = $role->toArray();
         $role['created_at'] = date("Y-m-d", strtotime($role['created_at']));
-        return response()->json(['title' => 'Role successfully updated', 'role' => $role]);
+        return response()->json(['message' => 'Role successfully updated', 'role' => $role]);
+    }
+
+    public function delete(Request $request)
+    {
+        // $role = Role::find($request->roleId);
+        // $role->delete();
+        return response()->json([
+          'message' => 'Successfully deleted',
+          'roleId' => $request->id
+        ]);
     }
 }

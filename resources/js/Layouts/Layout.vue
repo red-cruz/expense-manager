@@ -35,6 +35,10 @@ defineProps({ user: Object });
     </div>
   </div>
 </template>
+<style lang="scss">
+@import 'noty/src/noty.scss';
+@import 'noty/src/themes/bootstrap-v4.scss';
+</style>
 <style scoped>
 .btn {
   border: none;
