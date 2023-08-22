@@ -17,7 +17,7 @@ class ExpenseCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-          'name' => ucwords(fake()->unique()->creditCardType()),
+          'name' => ucwords(fake()->unique()->word()),
           'description' => fake()->catchPhrase(),
         ];
     }

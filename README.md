@@ -21,8 +21,11 @@ A simple Laravel application that tracks expenses.
    - Can access User Management
 
 2. User
+
    - Can change password
    - Can create/update/delete own expenses
+
+   > **Note:** When adding a new user, the default password is set to **Pass@1234**. This is set because the requirements and the UI did not contain a password field.
 
 ## Dashboard
 

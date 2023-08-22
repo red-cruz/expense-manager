@@ -13,15 +13,6 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // default role
-        Role::factory()->create([
-          'name' => 'Admin',
-          'description' => 'Administrator'
-        ]);
-        Role::factory()->create([
-          'name' => 'User',
-          'description' => 'User'
-        ]);
-        // Role::factory(2)->create();
+        Role::factory(5)->create();
     }
 }

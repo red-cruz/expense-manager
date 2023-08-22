@@ -98,20 +98,21 @@ import Vts from 'vts-form';
 import { onMounted } from 'vue';
 import { closeModal, notify } from '../helpers';
 import Swal from 'sweetalert2';
-
+import { usePage } from '@inertiajs/vue3';
 defineProps({ user: Object, page: String });
 onMounted(() => {
-  new Vts('update-password-form', {
-    ajax: {
-      success: ({ title }, response, form) => {
-        notify({ text: title });
-        form.classList.remove('was-validated');
-        form.reset();
-        closeModal('update-password-modal');
-        Swal.close();
+  if (usePage().props.user.role_id !== 1)
+    new Vts('update-password-form', {
+      ajax: {
+        success: ({ title }, response, form) => {
+          notify({ text: title });
+          form.classList.remove('was-validated');
+          form.reset();
+          closeModal('update-password-modal');
+          Swal.close();
+        },
       },
-    },
-  });
+    });
 });
 </script>
 
