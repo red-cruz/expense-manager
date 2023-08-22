@@ -21,7 +21,6 @@
           placeholder="Email"
           autocomplete="email"
           required
-          value="admin@email.com"
         />
         <label for="name">Email address</label>
       </div>
@@ -35,7 +34,6 @@
           autocomplete="current-password"
           required
           minlength="8"
-          value="Pass@123"
         />
         <label for="password">Password</label>
       </div>

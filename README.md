@@ -2,6 +2,26 @@
 
 A simple Laravel application that tracks expenses.
 
+## Default Admin Account
+
+For your convenience, a default admin account has been set up with the following credentials:
+
+- **Email:** admin@email.com
+- **Password:** Pass@123
+
+Please use these credentials to access the administrator privileges and manage the application as specified in the requirements.
+
+## Tech Stack
+
+### Backend
+
+- Laravel 10
+
+### Frontend
+
+- Vue 3 with Vite
+- Inertia
+
 ## Features
 
 - User Management
@@ -56,17 +76,6 @@ A simple Laravel application that tracks expenses.
 - Accessible by all user roles
 - If default user, only their expenses will be shown
 - Add validations for fields
-
-## Tech Stack
-
-### Backend
-
-- Laravel 10
-
-### Frontend
-
-- Vue 3 with Vite
-- Inertia
 
 ## How to Use
 

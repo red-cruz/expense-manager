@@ -22,7 +22,7 @@ class ExpenseFactory extends Factory
         return [
           'user_id' => User::all()->random()->id,
           'expense_category_id' => ExpenseCategory::all()->random()->id,
-          'amount' => fake()->unique()->randomFloat(2, 0.01, 999.99),
+          'amount' => fake()->unique()->numberBetween(1, 999),
           'entry_date' => fake()->date()
         ];
     }
