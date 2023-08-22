@@ -36,6 +36,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/logout', [LogoutController::class, 'logout']);
 
+    // expenses
+    Route::get('/expenses', [ExpenseController::class, 'index'])->name('expense.index');
+    Route::post('/expenses:create', [ExpenseController::class, 'create']);
+    Route::post('/expenses:update', [ExpenseController::class, 'update']);
+    Route::post('/expenses:delete', [ExpenseController::class, 'delete']);
+
     Route::middleware('admin')->group(function () {
         // roles
         // Route::get('/{roles?}', [RoleController::class, 'index'])->where('roles', '[\/\w\.-]*')->name('roles.index');
@@ -49,12 +55,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/user:create', [UserController::class, 'create']);
         Route::post('/user:update', [UserController::class, 'update']);
         Route::post('/user:delete', [UserController::class, 'delete']);
-
-        // expenses
-        Route::get('/expenses', [ExpenseController::class, 'index'])->name('expense.index');
-        Route::post('/expenses:create', [ExpenseController::class, 'create']);
-        Route::post('/expenses:update', [ExpenseController::class, 'update']);
-        Route::post('/expenses:delete', [ExpenseController::class, 'delete']);
 
         // expense category
         Route::get('/expenses/category', [ExpenseCategoryController::class, 'index'])->name('expense.category.index');

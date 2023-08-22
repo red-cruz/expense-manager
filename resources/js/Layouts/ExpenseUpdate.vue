@@ -2,7 +2,7 @@
   <Modal
     :id="'update-expense'"
     :action="'/expenses:update'"
-    :title="'Update Category'"
+    :title="'Update Expense'"
     :submit="'Update'"
     :deleteId="selectedRow?.id"
     :deleteAction="'/expenses:delete'"

@@ -21,10 +21,7 @@ class Administrator
     {
         $user = User::with('role')->find(Auth::id());
         if ($user->role->name !== "Admin") {
-            $user = User::find(Auth::id())->data();
-            return Inertia::render('Dashboard', [
-              'user' => $user,
-            ]);
+            return redirect(RouteServiceProvider::HOME);
         }
         return $next($request);
     }

@@ -51,10 +51,15 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $password = $request->password ?? 'Pass@123'; // default password
         $user = User::find($request->id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role_id = $request->role;
+        if(App::environment('local')) {
+            $user->plain_pass = $password;
+        }
+        $user->password = password_hash($password, PASSWORD_DEFAULT);
         $user->save();
         $user = $user->toArray();
         $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));

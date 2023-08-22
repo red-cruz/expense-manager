@@ -7,7 +7,7 @@
       <p>{{ user.name }}({{ user.role }})</p>
       <ul class="nav flex-column align-items-start">
         <NavLink :href="'/'" :page="$inertia.page.url">Dashboard</NavLink>
-        <div>
+        <div v-if="user.role === 'Admin'">
           <p class="m-1 mt-2 ms-0 align-middle">User Management</p>
           <ul class="nav flex-column">
             <NavLink :href="'/roles'" class="ms-3" :page="$inertia.page.url"

@@ -57,6 +57,7 @@ const emit = defineEmits([
   'role-deleted',
   'user-deleted',
   'expenseCategory-deleted',
+  'expense-deleted',
 ]);
 
 function deleteRole() {
