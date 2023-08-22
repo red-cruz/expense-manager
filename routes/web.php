@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RoleController;
@@ -47,5 +48,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/user:create', [UserController::class, 'create']);
         Route::post('/user:update', [UserController::class, 'update']);
         Route::post('/user:delete', [UserController::class, 'delete']);
+
+        // expense category
+        Route::get('/expenses/category', [ExpenseCategoryController::class, 'index'])->name('expense.category.index');
+        Route::post('/expenses/category:create', [ExpenseCategoryController::class, 'create']);
+        Route::post('/expenses/category:update', [ExpenseCategoryController::class, 'update']);
+        Route::post('/expenses/category:delete', [ExpenseCategoryController::class, 'delete']);
     });
 });

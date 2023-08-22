@@ -22,7 +22,7 @@
         <ul class="nav flex-column">
           <NavLink
             v-if="user.role === 'Admin'"
-            :href="'/expense_categories'"
+            :href="'/expenses/category'"
             class="ms-3"
             :page="$inertia.page.url"
           >

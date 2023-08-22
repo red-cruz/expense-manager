@@ -3,20 +3,20 @@ import { Head, usePage } from '@inertiajs/vue3';
 import DataTable from 'datatables.net-vue3';
 import DataTablesCore from 'datatables.net-bs5';
 import Breadcrumb from '../partials/Breadcrumb.vue';
-import { onMounted, ref } from 'vue';
-import UserCreate from '../Layouts/UserCreate.vue';
-import UserUpdate from '../Layouts/UserUpdate.vue';
+import { onMounted, reactive, ref } from 'vue';
+import ExpenseCategoryCreate from '../Layouts/ExpenseCategoryCreate.vue';
+import ExpenseCategoryUpdate from '../Layouts/ExpenseCategoryUpdate.vue';
 import Select from 'datatables.net-select';
 import { Modal } from 'bootstrap';
 DataTable.use(Select);
 DataTable.use(DataTablesCore);
 
-defineProps({ isAdmin: Boolean, users: Object, roles: Object });
-const emit = defineEmits(['update-user']);
+defineProps({ isAdmin: Boolean, expenseCategories: Object });
+const emit = defineEmits(['update-expenseCategory']);
 let dt;
 const table = ref();
 const selectedRow = ref(null);
-const data = ref(usePage().props.users);
+const data = ref(usePage().props.expenseCategories);
 const options = {
   searching: false,
   info: false,
@@ -26,14 +26,13 @@ const options = {
   columns: [
     { data: 'id' },
     { data: 'name' },
-    { data: 'email' },
-    { data: 'role.name' },
+    { data: 'description' },
     { data: 'created_at' },
     { data: 'updated_at' },
   ],
   columnDefs: [
     {
-      targets: [0, 5],
+      targets: [0, 4],
       visible: false,
     },
   ],
@@ -43,31 +42,31 @@ onMounted(() => {
   dt = table.value.dt;
 });
 
-function create(user) {
-  data.value.push(user);
+function create(expenseCategory) {
+  data.value.push(expenseCategory);
 }
-function update(user) {
-  let idx = data.value.findIndex((r) => r.id === user.id);
-  data.value[idx] = user;
+function update(expenseCategory) {
+  let idx = data.value.findIndex((r) => r.id === expenseCategory.id);
+  data.value[idx] = expenseCategory;
 }
-function remove(userId) {
-  let idx = data.value.findIndex((r) => r.id === userId);
+function remove(expenseCategoryId) {
+  let idx = data.value.findIndex((r) => r.id === expenseCategoryId);
   data.value.splice(idx, 1);
 }
 function showUpdateModal() {
-  const selected = dt.row('.selected').data();
-  let idx = data.value.findIndex((r) => r.id === selected.id);
-  if (data.value[idx].role.id === 1) return; // admin
-  selectedRow.value = selected;
-  Modal.getOrCreateInstance('#update-user-modal').show();
+  const selected = dt.row('.selected');
+  selectedRow.value = selected.data();
+  Modal.getOrCreateInstance('#update-expenseCategory-modal').show();
 }
 </script>
 
 <template>
-  <Head title="Users" />
-  <Breadcrumb :page-title="'Users'">
-    <li class="breadcrumb-item">User Management</li>
-    <li class="breadcrumb-item fw-bold" aria-current="page">Users</li>
+  <Head title="Expense Categories" />
+  <Breadcrumb :page-title="'Expense Management'">
+    <li class="breadcrumb-item">Expense Management</li>
+    <li class="breadcrumb-item fw-bold" aria-current="page">
+      Expense Categories
+    </li>
   </Breadcrumb>
 
   <div class="container">
@@ -81,9 +80,8 @@ function showUpdateModal() {
       <thead>
         <tr>
           <th>Id</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
+          <th>Display Name</th>
+          <th>Description</th>
           <th>Created at</th>
           <th>Updated at</th>
         </tr>
@@ -93,19 +91,18 @@ function showUpdateModal() {
       <button
         type="button"
         data-bs-toggle="modal"
-        data-bs-target="#add-user-modal"
+        data-bs-target="#add-expenseCategory-modal"
         class="btn btn-light border border-2"
       >
-        Add user
+        Add Category
       </button>
     </div>
   </div>
-  <UserCreate :roles="roles" @user-created="create" />
-  <UserUpdate
-    :roles="roles"
+  <ExpenseCategoryCreate @expenseCategory-created="create" />
+  <ExpenseCategoryUpdate
     :selectedRow="selectedRow"
-    @user-updated="update"
-    @user-deleted="remove"
+    @expenseCategory-updated="update"
+    @expenseCategory-deleted="remove"
   />
 </template>
 <style></style>
