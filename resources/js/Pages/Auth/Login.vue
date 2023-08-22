@@ -33,7 +33,7 @@
           placeholder="Password"
           autocomplete="current-password"
           required
-          minlength="8"
+          minlength="6"
         />
         <label for="password">Password</label>
       </div>
