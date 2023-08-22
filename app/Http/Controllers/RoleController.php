@@ -67,6 +67,9 @@ class RoleController extends Controller
               'description' => 'required|max:255',
             ]);
             $role = Role::find($validated['id']);
+            if($role->id === 1) {
+                throw new Error('Admin role cannot be updated');
+            }
             $role->name = $validated['name'];
             $role->description = $validated['description'];
             $role->save();
@@ -95,6 +98,9 @@ class RoleController extends Controller
               'deleteId' => 'exists:roles,id',
             ]);
             $role = Role::find($validated['deleteId']);
+            if($role->id === 1) {
+                throw new Error('Admin role cannot be deleted');
+            }
             $role->delete();
             return response()->json([
               'message' => $role->name.' has been deleted'

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +83,9 @@ class UserController extends Controller
 
             $password = $request->password ?? 'Pass@123'; // default password
             $user = User::find($validated['id']);
+            if($user->role_id === 1) {
+                throw new Error('Admin account cannot be updated');
+            }
             $user->name = $validated['name'];
             $user->email = $validated['email'];
             $user->role_id = $validated['role'];
@@ -117,6 +121,11 @@ class UserController extends Controller
               'deleteId' => 'exists:users,id',
             ]);
             $user = User::find($validated['deleteId']);
+
+            if($user->role_id === 1) {
+                throw new Error('Admin account cannot be deleted');
+            }
+
             foreach ($user->expenses as $expenses) {
                 $expenses->delete();
             }
