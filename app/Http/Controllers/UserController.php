@@ -17,22 +17,26 @@ class UserController extends Controller
         $user['role'] = $user['role']['name'];
 
         $users = User::all()->toArray();
-        foreach ($users as $key => $user) {
-            $users[$key]['role'] = Role::find($user['role_id']);
-            $users[$key]['created_at'] = date("Y-m-d", strtotime($user['created_at']));
+        $roles = Role::all();
+
+        foreach ($users as $key => $userItem) {
+            $users[$key]['role'] = $roles->find($userItem['role_id']);
+            $users[$key]['created_at'] = date("Y-m-d", strtotime($userItem['created_at']));
         }
         return Inertia::render('Users', [
           'user' => $user,
-          'users' => $users
+          'users' => $users,
+          'roles' => $roles
         ]);
     }
 
     public function create(Request $request)
     {
+        // dd($request);
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role_id = $request->role_id;
+        $user->role_id = $request->role;
         $user->save();
         $user = $user->toArray();
         $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));

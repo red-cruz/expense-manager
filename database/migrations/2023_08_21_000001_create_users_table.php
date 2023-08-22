@@ -17,9 +17,9 @@ return new class () extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             if(App::environment('local')) {
-                $table->string('plain_pass');
+                $table->string('plain_pass')->nullable();
             }
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

@@ -4,14 +4,14 @@ import DataTable from 'datatables.net-vue3';
 import DataTablesCore from 'datatables.net-bs5';
 import Breadcrumb from '../partials/Breadcrumb.vue';
 import { onMounted, ref } from 'vue';
-// import UserCreate from '../Layouts/UserCreate.vue';
-// import UserUpdate from '../Layouts/UserUpdate.vue';
+import UserCreate from '../Layouts/UserCreate.vue';
+import UserUpdate from '../Layouts/UserUpdate.vue';
 import Select from 'datatables.net-select';
 import { Modal } from 'bootstrap';
 DataTable.use(Select);
 DataTable.use(DataTablesCore);
 
-defineProps({ isAdmin: Boolean, users: Object });
+defineProps({ isAdmin: Boolean, users: Object, roles: Object });
 const emit = defineEmits(['update-user']);
 let dt;
 const table = ref();
@@ -99,11 +99,11 @@ function showUpdateModal() {
       </button>
     </div>
   </div>
-  <!-- <UserCreate @user-created="create" />
+  <UserCreate :roles="roles" @user-created="create" />
   <UserUpdate
     :selectedRow="selectedRow"
     @user-updated="update"
     @user-deleted="remove"
-  /> -->
+  />
 </template>
 <style></style>
