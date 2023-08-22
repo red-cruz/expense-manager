@@ -46,13 +46,14 @@ import { notify } from '../helpers';
 const props = defineProps({
   title: String,
   withDelete: Boolean,
-  roleId: Number,
+  deleteId: Number,
   id: { type: String, required: true },
   action: { type: String, required: true },
   submit: { type: String, default: 'Save' },
+  _for: String,
 });
 
-const emit = defineEmits(['role-deleted']);
+const emit = defineEmits(['role-deleted', 'user-deleted']);
 
 function deleteRole() {
   Swal.fire({
@@ -63,7 +64,7 @@ function deleteRole() {
     cancelButtonText: 'No',
   }).then(function (isConfirm) {
     if (isConfirm.isConfirmed) {
-      fetch('/role:delete', {
+      fetch(`/${props._for}:delete`, {
         headers: {
           'Content-Type': 'application/json',
           'X-CSRF-TOKEN': document
@@ -71,7 +72,7 @@ function deleteRole() {
             .getAttribute('content'),
         },
         method: 'post',
-        body: JSON.stringify({ roleId: props.roleId }),
+        body: JSON.stringify({ deleteId: props.deleteId }),
       }).then(async (response) => {
         try {
           const data = await response.json();
@@ -79,7 +80,7 @@ function deleteRole() {
             text: data.message,
             type: data?.type || 'success',
           });
-          emit('role-deleted', props.roleId);
+          emit(`${props._for}-deleted`, props.deleteId);
         } catch (error) {
           notify({
             text: 'An unexpected error occured.',

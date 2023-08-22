@@ -5,7 +5,8 @@
     :title="'Update Role'"
     :submit="'Update'"
     :withDelete="true"
-    :roleId="selectedRow?.id"
+    :deleteId="selectedRow?.id"
+    :_for="'role'"
   >
     <input type="hidden" name="id" :value="selectedRow?.id" />
     <div class="align-items-center">
