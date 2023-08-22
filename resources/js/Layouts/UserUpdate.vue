@@ -4,9 +4,9 @@
     :action="'/user:update'"
     :title="'Update user'"
     :submit="'Update'"
-    :withDelete="true"
     :deleteId="selectedRow?.id"
-    :_for="'user'"
+    :deleteAction="'/user:delete'"
+    :deleteEmitter="'user-deleted'"
   >
     <input type="hidden" name="id" :value="selectedRow?.id" />
     <div class="align-items-center">

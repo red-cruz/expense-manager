@@ -1,8 +1,8 @@
 <template>
   <Modal
     :id="'add-expenseCategory'"
-    :action="'/expenseCategory:create'"
-    :title="'Add expenseCategory'"
+    :action="'/expenses/category:create'"
+    :title="'Add Category'"
   >
     <div class="align-items-center">
       <div class="row mb-2">

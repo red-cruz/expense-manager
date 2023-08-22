@@ -38,7 +38,7 @@ class ExpenseCategoryController extends Controller
         $expenseCategory->save();
         $expenseCategory = $expenseCategory->toArray();
         $expenseCategory['created_at'] = date("Y-m-d", strtotime($expenseCategory['created_at']));
-        return response()->json(['message' => 'expenseCategory successfully added', 'expenseCategory' => $expenseCategory]);
+        return response()->json(['message' => 'Expense Category successfully added', 'expenseCategory' => $expenseCategory]);
     }
 
     public function update(Request $request)
@@ -49,7 +49,7 @@ class ExpenseCategoryController extends Controller
         $expenseCategory->save();
         $expenseCategory = $expenseCategory->toArray();
         $expenseCategory['created_at'] = date("Y-m-d", strtotime($expenseCategory['created_at']));
-        return response()->json(['message' => 'expenseCategory successfully updated', 'expenseCategory' => $expenseCategory]);
+        return response()->json(['message' => 'Expense Category successfully updated', 'expenseCategory' => $expenseCategory]);
     }
 
     public function delete(Request $request)

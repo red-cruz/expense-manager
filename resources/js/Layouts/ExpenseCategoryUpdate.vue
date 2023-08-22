@@ -1,8 +1,8 @@
 <template>
   <Modal
     :id="'update-expenseCategory'"
-    :action="'/expenseCategory:update'"
-    :title="'Update expenseCategory'"
+    :action="'/expenses/category:update'"
+    :title="'Update Category'"
     :submit="'Update'"
     :withDelete="true"
     :deleteId="selectedRow?.id"
@@ -71,7 +71,6 @@ onMounted(() => {
       },
     },
   });
-  console.log(updateexpenseCategory.value);
 });
 </script>
 

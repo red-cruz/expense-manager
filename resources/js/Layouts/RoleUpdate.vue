@@ -4,9 +4,9 @@
     :action="'/role:update'"
     :title="'Update Role'"
     :submit="'Update'"
-    :withDelete="true"
-    :deleteId="selectedRow?.id"
-    :_for="'role'"
+    :deleteId="selectedRow.id"
+    :deleteAction="'/role:delete'"
+    :deleteEmitter="'role-deleted'"
   >
     <input type="hidden" name="id" :value="selectedRow?.id" />
     <div class="align-items-center">
@@ -71,7 +71,6 @@ onMounted(() => {
       },
     },
   });
-  console.log(updateRole.value);
 });
 </script>
 

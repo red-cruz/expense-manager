@@ -11,7 +11,7 @@
           </div>
           <div class="modal-footer justify-content-between">
             <button
-              v-if="withDelete"
+              v-if="deleteId"
               @click="deleteRole"
               type="button"
               class="btn btn-danger me-2"
@@ -45,12 +45,12 @@ import { defineProps } from 'vue';
 import { notify } from '../helpers';
 const props = defineProps({
   title: String,
-  withDelete: Boolean,
   deleteId: Number,
+  deleteAction: String,
+  deleteEmitter: String,
   id: { type: String, required: true },
   action: { type: String, required: true },
   submit: { type: String, default: 'Save' },
-  _for: String,
 });
 
 const emit = defineEmits(['role-deleted', 'user-deleted']);
@@ -64,7 +64,7 @@ function deleteRole() {
     cancelButtonText: 'No',
   }).then(function (isConfirm) {
     if (isConfirm.isConfirmed) {
-      fetch(`/${props._for}:delete`, {
+      fetch(props.deleteAction, {
         headers: {
           'Content-Type': 'application/json',
           'X-CSRF-TOKEN': document
@@ -80,7 +80,7 @@ function deleteRole() {
             text: data.message,
             type: data?.type || 'success',
           });
-          emit(`${props._for}-deleted`, props.deleteId);
+          emit(props.deleteEmitter, props.deleteId);
         } catch (error) {
           notify({
             text: 'An unexpected error occured.',
