@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExpenseCategory;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,7 @@ class DashboardController extends Controller
 
         // overwrite
         $user = $user->toArray();
-        $user['role'] = $user['role']['name'];
+        $user['role'] = Role::find($user['role_id'])->name;
         $user['expenses'] = $expenses;
 
         return Inertia::render('Dashboard', [

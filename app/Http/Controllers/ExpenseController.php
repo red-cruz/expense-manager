@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +17,10 @@ class ExpenseController extends Controller
         // user info
         $user = User::with(['role'])->find(Auth::id());
         $user = $user->toArray();
-        $user['role'] = $user['role']['name'];
+        $user['role'] = Role::find($user['role_id'])->name;
 
         // expenses
-        $expenses = ($user['role'] === 'Admin') ? Expense::all() : Expense::where('user_id', Auth::id());
+        $expenses = ($user['role'] === 'Admin') ? Expense::all() : Expense::where('user_id', Auth::id())->get();
         $user['expenses'] = $expenses->toArray();
 
         // category
