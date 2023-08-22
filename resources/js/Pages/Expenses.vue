@@ -104,6 +104,5 @@ function showUpdateModal() {
     @expense-updated="update"
     @expense-deleted="remove"
   />
-  {{ expenses }}
 </template>
 <style></style>
