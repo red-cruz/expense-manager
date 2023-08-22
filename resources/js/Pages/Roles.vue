@@ -20,7 +20,7 @@ const data = ref(usePage().props.roles);
 const options = {
   searching: false,
   info: false,
-  ordering: false,
+  order: [0, 'asc'],
   paging: false,
   select: true,
   columns: [
@@ -50,10 +50,8 @@ function update(role) {
   data.value[idx] = role;
 }
 function remove(roleId) {
-  dt.rows({ selected: true }).every(function () {
-    let idx = data.value.indexOf(this.data());
-    data.value.splice(idx, 1);
-  });
+  let idx = data.value.findIndex((r) => r.id === roleId);
+  data.value.splice(idx, 1);
 }
 function showUpdateModal() {
   const selected = dt.row('.selected');

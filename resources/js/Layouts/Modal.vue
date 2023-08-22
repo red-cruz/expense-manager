@@ -76,7 +76,7 @@ function deleteRole() {
         try {
           const data = await response.json();
           notify({
-            text: data.title,
+            text: data.message,
             type: data?.type || 'success',
           });
           emit('role-deleted', props.roleId);
