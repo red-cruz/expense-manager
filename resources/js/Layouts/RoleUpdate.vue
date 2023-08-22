@@ -1,5 +1,11 @@
 <template>
-  <Modal :id="'update-role'" :action="'/role:update'" :title="'Update Role'">
+  <Modal
+    :id="'update-role'"
+    :action="'/role:update'"
+    :title="'Update Role'"
+    :submit="'Update'"
+  >
+    <input type="hidden" name="id" :value="selectedRow?.id" />
     <div class="align-items-center">
       <div class="row mb-2">
         <div class="col-4">
@@ -66,7 +72,7 @@ onMounted(() => {
         form.classList.remove('was-validated');
         form.reset();
         closeModal('update-role-modal');
-        emit('role-created', role);
+        emit('role-updated', role);
       },
     },
   });

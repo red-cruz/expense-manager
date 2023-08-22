@@ -37,5 +37,6 @@ Route::middleware(['auth'])->group(function () {
         // roles
         Route::get('/{roles?}', [RoleController::class, 'index'])->where('roles', '[\/\w\.-]*')->name('roles.index');
         Route::post('/role:create', [RoleController::class, 'create']);
+        Route::post('/role:update', [RoleController::class, 'update']);
     });
 });

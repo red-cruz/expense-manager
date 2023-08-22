@@ -18,9 +18,11 @@ const table = ref();
 const selectedRow = ref(null);
 let roles = usePage().props.roles;
 const data = ref(
-  Object.values(roles).map((role) => {
-    return [role.name, role.description, role.created_at];
-  }),
+  Object.values(roles).map(
+    ({ id, name, description, created_at, updated_at }) => {
+      return [id, name, description, created_at, updated_at];
+    },
+  ),
 );
 const options = {
   searching: false,
@@ -28,19 +30,27 @@ const options = {
   ordering: false,
   paging: false,
   select: true,
+  columnDefs: [
+    {
+      targets: [0, 4],
+      visible: false,
+    },
+  ],
 };
 const emit = defineEmits(['update-role']);
 onMounted(() => {
   dt = table.value.dt;
 });
 
-function create(role) {
-  roles.push(role);
-  data.value.push([role.name, role.description, role.created_at]);
+function create({ id, name, description, created_at, updated_at }) {
+  // roles.push(role);
+  data.value.push([id, name, description, created_at, updated_at]);
 }
 function update(role) {
-  let idx = data.value.indexOf(role);
+  console.log(role, data.value);
+  let idx = data.value.find((r) => r.id == role.id);
   data.value[idx] = role;
+  console.log(idx);
 }
 function remove(roleId) {
   dt.rows({ selected: true }).every(function () {
@@ -49,17 +59,11 @@ function remove(roleId) {
   });
 }
 function showUpdateModal() {
-  dt.rows({ selected: true }).every(function () {
-    const selectedData = this.data();
-    selectedRow.value = roles.find((role) => {
-      return (
-        role.name === selectedData[0] &&
-        role.description === selectedData[1] &&
-        role.created_at === selectedData[2]
-      );
-    });
-    Modal.getOrCreateInstance('#update-role-modal').show();
-  });
+  const selected = dt.row('.selected');
+  if (selected.index() === 0) return; // admin
+  const [id, name, description, created_at, updated_at] = selected.data();
+  selectedRow.value = { id, name, description, created_at, updated_at };
+  Modal.getOrCreateInstance('#update-role-modal').show();
 }
 </script>
 
@@ -80,9 +84,11 @@ function showUpdateModal() {
     >
       <thead>
         <tr>
+          <th>Id</th>
           <th>Display Name</th>
           <th>Description</th>
           <th>Created at</th>
+          <th>Updated at</th>
         </tr>
       </thead>
     </DataTable>

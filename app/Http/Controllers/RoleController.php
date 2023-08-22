@@ -40,4 +40,15 @@ class RoleController extends Controller
         $role['created_at'] = date("Y-m-d", strtotime($role['created_at']));
         return response()->json(['title' => 'Role successfully added', 'role' => $role]);
     }
+
+    public function update(Request $request)
+    {
+        $role = Role::find($request->id);
+        $role->name = $request->name;
+        $role->description = $request->description;
+        $role->save();
+        $role = $role->toArray();
+        $role['created_at'] = date("Y-m-d", strtotime($role['created_at']));
+        return response()->json(['title' => 'Role successfully updated', 'role' => $role]);
+    }
 }
