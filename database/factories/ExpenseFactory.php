@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\ExpenseCategory;
 use App\Models\User;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,6 +23,7 @@ class ExpenseFactory extends Factory
           'user_id' => User::all()->random()->id,
           'expense_category_id' => ExpenseCategory::all()->random()->id,
           'amount' => fake()->unique()->randomFloat(2, 0.01, 999.99),
+          'entry_date' => fake()->date()
         ];
     }
 }

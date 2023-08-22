@@ -15,6 +15,7 @@ return new class () extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('expense_category_id');
             $table->double('amount');
+            $table->date('entry_date');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
