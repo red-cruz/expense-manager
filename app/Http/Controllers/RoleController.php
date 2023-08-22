@@ -59,7 +59,7 @@ class RoleController extends Controller
     {
         try {
             $validated = $request->validate([
-              'id' => 'exists:roles,id',
+              'id' => 'exists:roles,id|Integer',
               'name' => 'required|unique:roles|max:255',
               'description' => 'required|max:255',
             ]);

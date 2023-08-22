@@ -60,7 +60,7 @@ Vts.setDefaults({
           title: title,
           html: errMsg,
           icon: 'error',
-          showCancelButton: true, // for debugging
+          // showCancelButton: true, // for debugging
           cancelButtonText: 'View Error',
         }).then((result) => {
           if (result.dismiss === Swal.DismissReason.cancel) {

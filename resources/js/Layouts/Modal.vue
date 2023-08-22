@@ -81,6 +81,7 @@ function deleteRole() {
       }).then(async (response) => {
         try {
           const data = await response.json();
+          if (!response.ok) throw data;
           notify({
             text: data.message,
             type: data?.type || 'success',
@@ -88,7 +89,7 @@ function deleteRole() {
           emit(props.deleteEmitter, props.deleteId);
         } catch (error) {
           notify({
-            text: 'An unexpected error occured.',
+            text: error?.title || 'An unexpected error occured.',
             type: 'error',
           });
         }
