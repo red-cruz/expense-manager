@@ -53,7 +53,11 @@ const props = defineProps({
   submit: { type: String, default: 'Save' },
 });
 
-const emit = defineEmits(['role-deleted', 'user-deleted']);
+const emit = defineEmits([
+  'role-deleted',
+  'user-deleted',
+  'expenseCategory-deleted',
+]);
 
 function deleteRole() {
   Swal.fire({

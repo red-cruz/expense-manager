@@ -4,9 +4,9 @@
     :action="'/expenses/category:update'"
     :title="'Update Category'"
     :submit="'Update'"
-    :withDelete="true"
     :deleteId="selectedRow?.id"
-    :_for="'expenseCategory'"
+    :deleteAction="'/expenses/category:delete'"
+    :deleteEmitter="'expenseCategory-deleted'"
   >
     <input type="hidden" name="id" :value="selectedRow?.id" />
     <div class="align-items-center">

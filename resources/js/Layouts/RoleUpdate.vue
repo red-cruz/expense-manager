@@ -4,7 +4,7 @@
     :action="'/role:update'"
     :title="'Update Role'"
     :submit="'Update'"
-    :deleteId="selectedRow.id"
+    :deleteId="selectedRow?.id"
     :deleteAction="'/role:delete'"
     :deleteEmitter="'role-deleted'"
   >
