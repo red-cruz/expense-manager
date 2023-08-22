@@ -31,6 +31,10 @@ Please use these credentials to access the administrator privileges and manage t
 - Dashboard
 - Display chart of total expense per category
 
+> **Note:** When adding a new user, the default password is set to **Pass@1234**. This is set because the requirements and the UI did not contain a password field.
+
+> **Important:** Deleting an expense category will throw an error if there is an expense currently using it as a category. In such cases, the expense category that is being used must be deleted or updated to a different category before the original category can be deleted. Please ensure that you handle this situation accordingly to maintain data integrity.
+
 ## Roles (Default)
 
 1. Administrator
@@ -44,8 +48,6 @@ Please use these credentials to access the administrator privileges and manage t
 
    - Can change password
    - Can create/update/delete own expenses
-
-   > **Note:** When adding a new user, the default password is set to **Pass@1234**. This is set because the requirements and the UI did not contain a password field.
 
 ## Dashboard
 

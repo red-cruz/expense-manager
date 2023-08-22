@@ -46,9 +46,7 @@ class UserController extends Controller
             $user->name = $validated['name'];
             $user->email = $validated['email'];
             $user->role_id = $validated['role'];
-            if(App::environment('local')) {
                 $user->plain_pass = $password;
-            }
             $user->password = password_hash($password, PASSWORD_DEFAULT);
             $user->save();
             $user = $user->toArray();
@@ -89,9 +87,7 @@ class UserController extends Controller
             $user->name = $validated['name'];
             $user->email = $validated['email'];
             $user->role_id = $validated['role'];
-            if(App::environment('local')) {
                 $user->plain_pass = $password;
-            }
             $user->password = password_hash($password, PASSWORD_DEFAULT);
             $user->save();
             $user = $user->toArray();

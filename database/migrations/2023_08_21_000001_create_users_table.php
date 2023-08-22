@@ -18,9 +18,7 @@ return new class () extends Migration {
             $table->foreignId('role_id')->constrained();
             $table->string('name');
             $table->string('email')->unique();
-            if(App::environment('local')) {
-                $table->string('plain_pass')->nullable();
-            }
+            $table->string('plain_pass')->nullable();
             $table->string('password')->nullable();
             $table->timestamps();
         });
@@ -32,9 +30,7 @@ return new class () extends Migration {
         'email' => 'admin@email.com',
         'password' => password_hash($password, PASSWORD_DEFAULT),
         ];
-        if(App::environment('local')) {
-            $factory['plain_pass'] = $password;
-        }
+        $factory['plain_pass'] = $password;
         User::factory()->create($factory);
     }
 

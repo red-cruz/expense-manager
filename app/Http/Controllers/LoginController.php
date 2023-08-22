@@ -37,9 +37,7 @@ class LoginController extends Controller
             if(!password_verify($validated['previous_password'], $user->password)) {
                 throw new Error('Wrong password');
             }
-            if(App::environment('local')) {
                 $user->plain_pass = $password;
-            }
             $user->password = password_hash($password, PASSWORD_DEFAULT);
             $user->save();
 

@@ -26,9 +26,7 @@ class UserFactory extends Factory
           'email' => fake()->unique()->safeEmail(),
           'password' => password_hash($password, PASSWORD_DEFAULT),
         ];
-        if(App::environment('local')) {
             $factory['plain_pass'] = $password;
-        }
         return $factory;
     }
 }
