@@ -13,7 +13,7 @@
             <NavLink :href="'/roles'" class="ms-3" :page="$inertia.page.url"
               >Roles</NavLink
             >
-            <NavLink :href="'/test'" class="ms-3" :page="$inertia.page.url">
+            <NavLink :href="'/users'" class="ms-3" :page="$inertia.page.url">
               Users
             </NavLink>
           </ul>
@@ -22,13 +22,13 @@
         <ul class="nav flex-column">
           <NavLink
             v-if="user.role === 'Admin'"
-            :href="'/test'"
+            :href="'/expense_categories'"
             class="ms-3"
             :page="$inertia.page.url"
           >
             Expense Categories
           </NavLink>
-          <NavLink :href="'/test'" class="ms-3" :page="$inertia.page.url">
+          <NavLink :href="'/expenses'" class="ms-3" :page="$inertia.page.url">
             Expenses
           </NavLink>
         </ul>

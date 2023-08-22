@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,5 +40,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/role:create', [RoleController::class, 'create']);
         Route::post('/role:update', [RoleController::class, 'update']);
         Route::post('/role:delete', [RoleController::class, 'delete']);
+
+        // users
+        Route::get('/{users?}', [UserController::class, 'index'])->where('users', '[\/\w\.-]*')->name('users.index');
+        Route::post('/user:create', [UserController::class, 'create']);
+        Route::post('/user:update', [UserController::class, 'update']);
+        Route::post('/user:delete', [UserController::class, 'delete']);
     });
 });
