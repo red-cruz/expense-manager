@@ -37,24 +37,29 @@ class ExpenseController extends Controller
 
     public function create(Request $request)
     {
-        $expenses = new Expense();
-        $expenses->name = $request->name;
-        $expenses->description = $request->description;
-        $expenses->save();
-        $expenses = $expenses->toArray();
-        $expenses['created_at'] = date("Y-m-d", strtotime($expenses['created_at']));
-        return response()->json(['message' => 'Expense Category successfully added', 'expenseCategory' => $expenses]);
+        $expense = new Expense();
+        $expense->user_id = Auth::id();
+        $expense->expense_category_id = $request->expense_category_id;
+        $expense->amount = $request->amount;
+        $expense->entry_date = $request->entry_date;
+        $expense->save();
+        $expense->expenseCategory;
+        $expense = $expense->toArray();
+        $expense['created_at'] = date("Y-m-d", strtotime($expense['created_at']));
+        return response()->json(['message' => 'Expense successfully added', 'expense' => $expense]);
     }
 
     public function update(Request $request)
     {
-        $expenses = Expense::find($request->id);
-        $expenses->name = $request->name;
-        $expenses->description = $request->description;
-        $expenses->save();
-        $expenses = $expenses->toArray();
-        $expenses['created_at'] = date("Y-m-d", strtotime($expenses['created_at']));
-        return response()->json(['message' => 'Expense Category successfully updated', 'expenseCategory' => $expenses]);
+        $expense = Expense::find($request->id);
+        $expense->expense_category_id = $request->expense_category_id;
+        $expense->amount = $request->amount;
+        $expense->entry_date = $request->entry_date;
+        $expense->save();
+        $expense->expenseCategory;
+        $expense = $expense->toArray();
+        $expense['created_at'] = date("Y-m-d", strtotime($expense['created_at']));
+        return response()->json(['message' => 'Expense successfully added', 'expense' => $expense]);
     }
 
     public function delete(Request $request)

@@ -7,10 +7,16 @@
     <div class="align-items-center">
       <div class="row mb-2">
         <div class="col-4">
-          <label for="role" class="col-form-label"> Expense Category </label>
+          <label for="expense_category_id" class="col-form-label">
+            Expense Category
+          </label>
         </div>
         <div class="col-8">
-          <select class="form-select" name="role">
+          <select
+            id="expense_category_id"
+            class="form-select"
+            name="expense_category_id"
+          >
             <option v-for="category in categories" :value="category.id">
               {{ category.name }}
             </option>

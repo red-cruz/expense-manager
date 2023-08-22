@@ -94,7 +94,7 @@ function showUpdateModal() {
         data-bs-target="#add-expense-modal"
         class="btn btn-light border border-2"
       >
-        Add Category
+        Add Expense
       </button>
     </div>
   </div>
