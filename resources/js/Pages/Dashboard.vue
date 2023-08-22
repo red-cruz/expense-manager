@@ -1,6 +1,6 @@
 <script setup>
 import { Head, usePage } from '@inertiajs/vue3';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import Breadcrumb from '../Partials/Breadcrumb.vue';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
@@ -8,7 +8,7 @@ defineProps({ user: Object });
 const props = usePage().props;
 const user = computed(() => props.user);
 const expenses = computed(() => user.value.expenses);
-
+const noExpenses = ref(true);
 onMounted(() => {
   const ctx = document.getElementById('myExpenses');
 
@@ -18,7 +18,7 @@ onMounted(() => {
   const categories = expensesArr.map((expense) => expense.expense_category);
   // get array of total amounts
   const total_amounts = expensesArr.map((expense) => expense.total_amount);
-
+  if (categories.length > 0) noExpenses.value = false;
   new Chart(ctx, {
     type: 'pie',
     data: {
@@ -41,7 +41,8 @@ onMounted(() => {
 
   <div class="text-center">
     <div class="row">
-      <div class="col-6">
+      <p v-if="noExpenses">No expenses to show</p>
+      <div v-else class="col-6">
         <div class="row">
           <h6 class="col-6">Expense Categories</h6>
           <h6 class="col-6">Total</h6>
