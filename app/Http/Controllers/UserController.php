@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,17 +13,14 @@ class UserController extends Controller
     public function index()
     {
         $user = User::with('role')->find(Auth::id());
-
-        // overwrite
         $user = $user->toArray();
         $user['role'] = $user['role']['name'];
 
         $users = User::all()->toArray();
-
-        foreach ($users as $key => $role) {
-            $users[$key]['created_at'] = date("Y-m-d", strtotime($role['created_at']));
+        foreach ($users as $key => $user) {
+            $users[$key]['role'] = Role::find($user['role_id']);
+            $users[$key]['created_at'] = date("Y-m-d", strtotime($user['created_at']));
         }
-        // dd($users);
         return Inertia::render('Users', [
           'user' => $user,
           'users' => $users

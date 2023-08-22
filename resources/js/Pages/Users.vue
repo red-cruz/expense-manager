@@ -4,19 +4,19 @@ import DataTable from 'datatables.net-vue3';
 import DataTablesCore from 'datatables.net-bs5';
 import Breadcrumb from '../partials/Breadcrumb.vue';
 import { onMounted, ref } from 'vue';
-import RoleCreate from '../Layouts/RoleCreate.vue';
-import RoleUpdate from '../Layouts/RoleUpdate.vue';
+// import UserCreate from '../Layouts/UserCreate.vue';
+// import UserUpdate from '../Layouts/UserUpdate.vue';
 import Select from 'datatables.net-select';
 import { Modal } from 'bootstrap';
 DataTable.use(Select);
 DataTable.use(DataTablesCore);
 
-defineProps({ isAdmin: Boolean, roles: Object });
-const emit = defineEmits(['update-role']);
+defineProps({ isAdmin: Boolean, users: Object });
+const emit = defineEmits(['update-user']);
 let dt;
 const table = ref();
 const selectedRow = ref(null);
-const data = ref(usePage().props.roles);
+const data = ref(usePage().props.users);
 const options = {
   searching: false,
   info: false,
@@ -26,13 +26,14 @@ const options = {
   columns: [
     { data: 'id' },
     { data: 'name' },
-    { data: 'description' },
+    { data: 'email' },
+    { data: 'role.name' },
     { data: 'created_at' },
     { data: 'updated_at' },
   ],
   columnDefs: [
     {
-      targets: [0, 4],
+      targets: [0, 5],
       visible: false,
     },
   ],
@@ -42,30 +43,30 @@ onMounted(() => {
   dt = table.value.dt;
 });
 
-function create(role) {
-  data.value.push(role);
+function create(user) {
+  data.value.push(user);
 }
-function update(role) {
-  let idx = data.value.findIndex((r) => r.id === role.id);
-  data.value[idx] = role;
+function update(user) {
+  let idx = data.value.findIndex((r) => r.id === user.id);
+  data.value[idx] = user;
 }
-function remove(roleId) {
-  let idx = data.value.findIndex((r) => r.id === roleId);
+function remove(userId) {
+  let idx = data.value.findIndex((r) => r.id === userId);
   data.value.splice(idx, 1);
 }
 function showUpdateModal() {
   const selected = dt.row('.selected');
   if (selected.index() === 0) return; // admin
   selectedRow.value = selected.data();
-  Modal.getOrCreateInstance('#update-role-modal').show();
+  Modal.getOrCreateInstance('#update-user-modal').show();
 }
 </script>
 
 <template>
-  <Head title="Roles" />
-  <Breadcrumb :page-title="'Roles'">
+  <Head title="Users" />
+  <Breadcrumb :page-title="'users'">
     <li class="breadcrumb-item">User Management</li>
-    <li class="breadcrumb-item fw-bold" aria-current="page">Roles</li>
+    <li class="breadcrumb-item fw-bold" aria-current="page">Users</li>
   </Breadcrumb>
 
   <div class="container">
@@ -79,8 +80,9 @@ function showUpdateModal() {
       <thead>
         <tr>
           <th>Id</th>
-          <th>Display Name</th>
-          <th>Description</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
           <th>Created at</th>
           <th>Updated at</th>
         </tr>
@@ -90,18 +92,18 @@ function showUpdateModal() {
       <button
         type="button"
         data-bs-toggle="modal"
-        data-bs-target="#add-role-modal"
+        data-bs-target="#add-user-modal"
         class="btn btn-light border border-2"
       >
-        Add Role
+        Add user
       </button>
     </div>
   </div>
-  <RoleCreate @role-created="create" />
-  <RoleUpdate
+  <!-- <UserCreate @user-created="create" />
+  <UserUpdate
     :selectedRow="selectedRow"
-    @role-updated="update"
-    @role-deleted="remove"
-  />
+    @user-updated="update"
+    @user-deleted="remove"
+  /> -->
 </template>
 <style></style>

@@ -36,13 +36,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware('admin')->group(function () {
         // roles
-        Route::get('/{roles?}', [RoleController::class, 'index'])->where('roles', '[\/\w\.-]*')->name('roles.index');
+        // Route::get('/{roles?}', [RoleController::class, 'index'])->where('roles', '[\/\w\.-]*')->name('roles.index');
+        Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
         Route::post('/role:create', [RoleController::class, 'create']);
         Route::post('/role:update', [RoleController::class, 'update']);
         Route::post('/role:delete', [RoleController::class, 'delete']);
 
         // users
-        Route::get('/{users?}', [UserController::class, 'index'])->where('users', '[\/\w\.-]*')->name('users.index');
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::post('/user:create', [UserController::class, 'create']);
         Route::post('/user:update', [UserController::class, 'update']);
         Route::post('/user:delete', [UserController::class, 'delete']);
