@@ -33,46 +33,106 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        $password = $request->password ?? 'Pass@123'; // default password
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role_id = $request->role;
-        if(App::environment('local')) {
-            $user->plain_pass = $password;
+        try {
+            $validated = $request->validate([
+              'name' => 'required|max:255',
+              'email' => 'required|email|unique:users,email|max:255',
+              'role' => 'exists:roles,id|Integer',
+            ]);
+
+            $password = $request->password ?? 'Pass@123'; // default password
+            $user = new User();
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            $user->role_id = $validated['role'];
+            if(App::environment('local')) {
+                $user->plain_pass = $password;
+            }
+            $user->password = password_hash($password, PASSWORD_DEFAULT);
+            $user->save();
+            $user = $user->toArray();
+            $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));
+            $user['role'] = Role::find($validated['role']);
+
+            return response()->json([
+              'message' => $user['name'].' has been added to users',
+              'user' => $user
+            ]);
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
+        } catch (\Throwable $th) {
+            return response()->json([
+              'title' => 'Error: '.$th->getMessage()
+            ], 500);
         }
-        $user->password = password_hash($password, PASSWORD_DEFAULT);
-        $user->save();
-        $user = $user->toArray();
-        $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));
-        $user['role'] = Role::find($request->role);
-        return response()->json(['message' => 'User successfully added', 'user' => $user]);
     }
 
     public function update(Request $request)
     {
-        $password = $request->password ?? 'Pass@123'; // default password
-        $user = User::find($request->id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role_id = $request->role;
-        if(App::environment('local')) {
-            $user->plain_pass = $password;
+        try {
+            $validated = $request->validate([
+              'id' => 'exists:users,id|Integer',
+              'name' => 'required|max:255',
+              'email' => 'required|email|max:255',
+              'role' => 'exists:roles,id|Integer',
+            ]);
+
+            $password = $request->password ?? 'Pass@123'; // default password
+            $user = User::find($validated['id']);
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            $user->role_id = $validated['role'];
+            if(App::environment('local')) {
+                $user->plain_pass = $password;
+            }
+            $user->password = password_hash($password, PASSWORD_DEFAULT);
+            $user->save();
+            $user = $user->toArray();
+            $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));
+            $user['role'] = Role::find($validated['role']);
+
+            return response()->json([
+              'message' => $user['name'].' has been updated',
+              'user' => $user
+            ]);
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
+        } catch (\Throwable $th) {
+            return response()->json([
+              'title' => 'Error: '.$th->getMessage()
+            ], 500);
         }
-        $user->password = password_hash($password, PASSWORD_DEFAULT);
-        $user->save();
-        $user = $user->toArray();
-        $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));
-        $user['role'] = Role::find($request->role);
-        return response()->json(['message' => 'User successfully updated', 'user' => $user]);
     }
 
     public function delete(Request $request)
     {
-        $user = User::find($request->deleteId);
-        $user->delete();
-        return response()->json([
-          'message' => 'Successfully deleted'
-        ]);
+        try {
+            $validated = $request->validate([
+              'deleteId' => 'exists:users,id',
+            ]);
+            $user = User::find($validated['deleteId']);
+            foreach ($user->expenses as $expenses) {
+                $expenses->delete();
+            }
+            $user->delete();
+            return response()->json([
+              'message' => $user->name.' has been deleted'
+            ]);
+        } catch(\Illuminate\Validation\ValidationException $err) {
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
+        } catch (\Throwable $th) {
+            return response()->json([
+              'title' => 'Error: '.$th->getMessage()
+            ], 500);
+        }
     }
 }

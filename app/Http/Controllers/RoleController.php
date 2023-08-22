@@ -49,7 +49,10 @@ class RoleController extends Controller
               'role' => $role
             ]);
         } catch(\Illuminate\Validation\ValidationException $err) {
-            return response()->json(['title' => 'Invalid input', 'errors' => $err->errors()], 422);
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
         } catch (\Throwable $th) {
             return response()->json(['title' => 'Error: '.$th->getMessage()], 500);
         }
@@ -60,7 +63,7 @@ class RoleController extends Controller
         try {
             $validated = $request->validate([
               'id' => 'exists:roles,id|Integer',
-              'name' => 'required|unique:roles|max:255',
+              'name' => 'required|max:255',
               'description' => 'required|max:255',
             ]);
             $role = Role::find($validated['id']);
@@ -74,9 +77,14 @@ class RoleController extends Controller
               'role' => $role
             ]);
         } catch(\Illuminate\Validation\ValidationException $err) {
-            return response()->json(['title' => 'Invalid input', 'errors' => $err->errors()], 422);
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
         } catch (\Throwable $th) {
-            return response()->json(['title' => 'Error: '.$th->getMessage()], 500);
+            return response()->json([
+              'title' => 'Error: '.$th->getMessage()
+            ], 500);
         }
     }
 
@@ -92,9 +100,14 @@ class RoleController extends Controller
               'message' => $role->name.' has been deleted'
             ]);
         } catch(\Illuminate\Validation\ValidationException $err) {
-            return response()->json(['title' => 'Invalid input', 'errors' => $err->errors()], 422);
+            return response()->json([
+              'title' => 'Invalid input',
+              'errors' => $err->errors()
+            ], 422);
         } catch (\Throwable $th) {
-            return response()->json(['title' => 'Error: '.$th->getMessage()], 500);
+            return response()->json([
+              'title' => 'Error: '.$th->getMessage()
+            ], 500);
         }
     }
 }
