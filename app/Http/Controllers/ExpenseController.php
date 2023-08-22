@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Models\ExpenseCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,17 +14,24 @@ class ExpenseController extends Controller
     public function index()
     {
         $user = User::with(['role', 'expenses'])->find(Auth::id());
-        foreach($user->expenses as $key => $expenses) {
-            $expenses->expenseCategory;
-        }
+        $expenseCategories = ExpenseCategory::all();
+
         $user = $user->toArray();
+
+        // overwrite
         $user['role'] = $user['role']['name'];
         foreach ($user['expenses'] as $key => $expense) {
-            $user['expenses'][$key]['created_at'] = date("Y-m-d", strtotime($expense['created_at']));
+            // get expense category
+            $category = $expenseCategories->find($expense['expense_category_id']);
+            $user['expenses'][$key]['expense_category'] = $category;
+            // format date
+            $created_at = date("Y-m-d", strtotime($expense['created_at']));
+            $user['expenses'][$key]['created_at'] = $created_at;
         }
 
         return Inertia::render('Expenses', [
-          'user' => $user
+          'user' => $user,
+          'expenseCategories' => $expenseCategories
         ]);
     }
 

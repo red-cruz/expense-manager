@@ -7,34 +7,45 @@
     <div class="align-items-center">
       <div class="row mb-2">
         <div class="col-4">
-          <label for="display_name" class="col-form-label">
-            Display Name
-          </label>
+          <label for="role" class="col-form-label"> Expense Category </label>
+        </div>
+        <div class="col-8">
+          <select class="form-select" name="role">
+            <option v-for="category in categories" :value="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-4">
+          <label for="amount" class="col-form-label"> Amount </label>
         </div>
         <div class="col-8">
           <input
-            type="text"
-            id="display_name"
-            name="name"
+            type="number"
+            id="amount"
+            name="amount"
             class="form-control"
             autocomplete="off"
+            min="1"
             required
           />
         </div>
       </div>
       <div class="row">
         <div class="col-4">
-          <label for="description" class="col-form-label"> Description </label>
+          <label for="entry_date" class="col-form-label"> Entry Date </label>
         </div>
         <div class="col-8">
-          <textarea
-            type="text"
-            id="description"
-            name="description"
+          <input
+            type="date"
+            id="entry_date"
+            name="entry_date"
             class="form-control"
-            autocomplete="off"
             required
-          ></textarea>
+          />
         </div>
       </div>
     </div>
@@ -47,9 +58,10 @@ import Modal from './Modal.vue';
 import Vts from 'vts-form';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
+import { usePage } from '@inertiajs/vue3';
 const addexpense = ref(null);
 const emit = defineEmits(['expense-created']);
-
+const categories = ref(usePage().props.expenseCategories);
 onMounted(() => {
   addexpense.value = new Vts('add-expense-form', {
     ajax: {
