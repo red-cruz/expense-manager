@@ -44,8 +44,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware('admin')->group(function () {
         // roles
-        // Route::get('/{roles?}', [RoleController::class, 'index'])->where('roles', '[\/\w\.-]*')->name('roles.index');
-        Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+        Route::get('/{roles}', [RoleController::class, 'index'])
+          ->where('roles', '(roles|Roles)')->name('roles.index');
         Route::post('/role:create', [RoleController::class, 'create']);
         Route::post('/role:update', [RoleController::class, 'update']);
         Route::post('/role:delete', [RoleController::class, 'delete']);
