@@ -7,13 +7,13 @@
     <div class="align-items-center">
       <div class="row mb-2">
         <div class="col-4">
-          <label for="expense_category_id" class="col-form-label">
+          <label for="expense_category_id-create" class="col-form-label">
             Expense Category
           </label>
         </div>
         <div class="col-8">
           <select
-            id="expense_category_id"
+            id="expense_category_id-create"
             class="form-select"
             name="expense_category_id"
           >
@@ -26,12 +26,12 @@
 
       <div class="row mb-2">
         <div class="col-4">
-          <label for="amount" class="col-form-label"> Amount </label>
+          <label for="amount-create" class="col-form-label"> Amount </label>
         </div>
         <div class="col-8">
           <input
             type="number"
-            id="amount"
+            id="amount-create"
             name="amount"
             class="form-control"
             autocomplete="off"
@@ -42,12 +42,14 @@
       </div>
       <div class="row">
         <div class="col-4">
-          <label for="entry_date" class="col-form-label"> Entry Date </label>
+          <label for="entry_date-create" class="col-form-label">
+            Entry Date
+          </label>
         </div>
         <div class="col-8">
           <input
             type="date"
-            id="entry_date"
+            id="entry_date-create"
             name="entry_date"
             class="form-control"
             required

@@ -7,14 +7,14 @@
     <div class="align-items-center">
       <div class="row mb-2">
         <div class="col-4">
-          <label for="display_name" class="col-form-label">
+          <label for="display_name-create" class="col-form-label">
             Display Name
           </label>
         </div>
         <div class="col-8">
           <input
             type="text"
-            id="display_name"
+            id="display_name-create"
             name="name"
             class="form-control"
             autocomplete="off"
@@ -24,12 +24,14 @@
       </div>
       <div class="row">
         <div class="col-4">
-          <label for="description" class="col-form-label"> Description </label>
+          <label for="description-create" class="col-form-label">
+            Description
+          </label>
         </div>
         <div class="col-8">
           <textarea
             type="text"
-            id="description"
+            id="description-create"
             name="description"
             class="form-control"
             autocomplete="off"

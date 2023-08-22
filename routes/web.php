@@ -62,4 +62,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/expenses/category:update', [ExpenseCategoryController::class, 'update']);
         Route::post('/expenses/category:delete', [ExpenseCategoryController::class, 'delete']);
     });
+
+    Route::post('/password:update', [LoginController::class, 'update']);
 });

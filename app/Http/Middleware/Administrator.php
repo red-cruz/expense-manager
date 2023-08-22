@@ -20,8 +20,7 @@ class Administrator
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = User::with('role')->find(Auth::id());
-        if (Role::find($user->role_id)->name !== 'Admin') {
+        if (Auth::user()->role_id !== 1) {
             return redirect(RouteServiceProvider::HOME);
         }
         return $next($request);

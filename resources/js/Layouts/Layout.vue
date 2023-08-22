@@ -11,7 +11,9 @@ defineProps({ user: Object });
       <Navigation :user="user" />
       <div class="col py-3">
         <ul class="nav justify-content-between border-bottom">
-          <li class="nav-item"><ThemeToggle /></li>
+          <li class="nav-item">
+            <ThemeToggle />
+          </li>
           <div class="d-flex">
             <li class="nav-item me-3 me-lg-5">
               <p>Welcome to Expense Manager</p>
