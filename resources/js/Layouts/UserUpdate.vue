@@ -1,46 +1,56 @@
 <template>
   <Modal
-    :id="'update-role'"
-    :action="'/role:update'"
-    :title="'Update Role'"
+    :id="'update-user'"
+    :action="'/user:update'"
+    :title="'Update user'"
     :submit="'Update'"
     :withDelete="true"
-    :roleId="selectedRow?.id"
+    :userId="selectedRow?.id"
   >
     <input type="hidden" name="id" :value="selectedRow?.id" />
     <div class="align-items-center">
       <div class="row mb-2">
         <div class="col-4">
-          <label for="display_name" class="col-form-label">
-            Display Name
-          </label>
+          <label for="name" class="col-form-label"> Name </label>
         </div>
         <div class="col-8">
           <input
             type="text"
-            id="display_name"
+            id="name"
             name="name"
             class="form-control"
-            autocomplete="off"
+            autocomplete="name"
             :value="selectedRow?.name"
+            required
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-4">
+          <label for="email" class="col-form-label"> Email address </label>
+        </div>
+        <div class="col-8">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            autocomplete="email"
+            :value="selectedRow?.email"
             required
           />
         </div>
       </div>
       <div class="row">
         <div class="col-4">
-          <label for="description" class="col-form-label"> Description </label>
+          <label for="role" class="col-form-label"> Role </label>
         </div>
         <div class="col-8">
-          <textarea
-            type="text"
-            id="description"
-            name="description"
-            class="form-control"
-            autocomplete="off"
-            required
-            >{{ selectedRow?.description }}</textarea
-          >
+          <select class="form-select" name="role" :value="selectedRow?.role_id">
+            <option v-for="role in roles" :value="role.id">
+              {{ role.name }}
+            </option>
+          </select>
         </div>
       </div>
     </div>
@@ -53,24 +63,23 @@ import Modal from './Modal.vue';
 import Vts from 'vts-form';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
-const updateRole = ref(null);
-const emit = defineEmits(['role-updated']);
-defineProps({ selectedRow: Object });
+const updateuser = ref(null);
+const emit = defineEmits(['user-updated']);
+defineProps({ selectedRow: Object, roles: Object });
 
 onMounted(() => {
-  updateRole.value = new Vts('update-role-form', {
+  updateuser.value = new Vts('update-user-form', {
     ajax: {
-      success: ({ message, role }, response, form) => {
+      success: ({ message, user }, response, form) => {
         notify({ text: message });
         form.classList.remove('was-validated');
         form.reset();
-        closeModal('update-role-modal');
-        emit('role-updated', role);
+        closeModal('update-user-modal');
+        emit('user-updated', user);
         Swal.close();
       },
     },
   });
-  console.log(updateRole.value);
 });
 </script>
 

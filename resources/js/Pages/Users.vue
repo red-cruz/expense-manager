@@ -55,9 +55,10 @@ function remove(userId) {
   data.value.splice(idx, 1);
 }
 function showUpdateModal() {
-  const selected = dt.row('.selected');
-  if (selected.index() === 0) return; // admin
-  selectedRow.value = selected.data();
+  const selected = dt.row('.selected').data();
+  let idx = data.value.findIndex((r) => r.id === selected.id);
+  if (data.value[idx].role.id === 1) return; // admin
+  selectedRow.value = selected;
   Modal.getOrCreateInstance('#update-user-modal').show();
 }
 </script>
@@ -101,6 +102,7 @@ function showUpdateModal() {
   </div>
   <UserCreate :roles="roles" @user-created="create" />
   <UserUpdate
+    :roles="roles"
     :selectedRow="selectedRow"
     @user-updated="update"
     @user-deleted="remove"

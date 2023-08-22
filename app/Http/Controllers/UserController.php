@@ -32,7 +32,6 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        // dd($request);
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -40,6 +39,7 @@ class UserController extends Controller
         $user->save();
         $user = $user->toArray();
         $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));
+        $user['role'] = Role::find($request->role);
         return response()->json(['message' => 'User successfully added', 'user' => $user]);
     }
 
@@ -48,17 +48,18 @@ class UserController extends Controller
         $user = User::find($request->id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role_id = $request->role_id;
+        $user->role_id = $request->role;
         $user->save();
         $user = $user->toArray();
         $user['created_at'] = date("Y-m-d", strtotime($user['created_at']));
+        $user['role'] = Role::find($request->role);
         return response()->json(['message' => 'User successfully updated', 'user' => $user]);
     }
 
     public function delete(Request $request)
     {
-        // $user = User::find($request->userId);
-        // $user->delete();
+        $user = User::find($request->userId);
+        $user->delete();
         return response()->json([
           'message' => 'Successfully deleted',
           'userId' => $request->id
