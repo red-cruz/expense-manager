@@ -11,7 +11,7 @@ import { Modal } from 'bootstrap';
 DataTable.use(Select);
 DataTable.use(DataTablesCore);
 
-defineProps({ isAdmin: Boolean, expenseCategories: Object });
+defineProps({ expenseCategories: Object });
 const emit = defineEmits(['update-expenseCategory']);
 let dt;
 const table = ref();

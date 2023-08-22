@@ -13,6 +13,11 @@ class ExpenseController extends Controller
 {
     public function index()
     {
+        // if(Auth::user()->role->name === 'Admin') {
+        //     $expenses = Expense::all();
+        // }
+        // $expenses = Expense::where('user_id', Auth::id());
+        //
         $user = User::with(['role', 'expenses'])->find(Auth::id());
         $expenseCategories = ExpenseCategory::all();
 
@@ -31,6 +36,7 @@ class ExpenseController extends Controller
 
         return Inertia::render('Expenses', [
           'user' => $user,
+          'expenses' => $expenses,
           'expenseCategories' => $expenseCategories
         ]);
     }

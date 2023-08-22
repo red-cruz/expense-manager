@@ -11,7 +11,7 @@ import { Modal } from 'bootstrap';
 DataTable.use(Select);
 DataTable.use(DataTablesCore);
 
-defineProps({ isAdmin: Boolean, expenses: Object });
+defineProps({ expenses: Object });
 const emit = defineEmits(['update-expense']);
 let dt;
 const table = ref();
@@ -104,5 +104,6 @@ function showUpdateModal() {
     @expense-updated="update"
     @expense-deleted="remove"
   />
+  {{ expenses }}
 </template>
 <style></style>

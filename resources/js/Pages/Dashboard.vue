@@ -58,6 +58,5 @@ onMounted(() => {
         <canvas id="myExpenses"></canvas>
       </div>
     </div>
-    <!-- <div v-else>No expenses to show</div> -->
   </div>
 </template>

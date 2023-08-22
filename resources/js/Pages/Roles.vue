@@ -11,7 +11,7 @@ import { Modal } from 'bootstrap';
 DataTable.use(Select);
 DataTable.use(DataTablesCore);
 
-defineProps({ isAdmin: Boolean, roles: Object });
+defineProps({ roles: Object });
 const emit = defineEmits(['update-role']);
 let dt;
 const table = ref();
