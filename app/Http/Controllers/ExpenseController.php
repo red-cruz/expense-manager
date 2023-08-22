@@ -19,7 +19,7 @@ class ExpenseController extends Controller
         $user = $user->toArray();
         $user['role'] = $user['role']['name'];
 
-        return Inertia::render('Expense', [
+        return Inertia::render('Expenses', [
           'user' => $user
         ]);
     }
