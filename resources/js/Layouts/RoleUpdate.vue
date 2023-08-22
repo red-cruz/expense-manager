@@ -57,7 +57,7 @@ import Vts from 'vts-form';
 import Swal from 'sweetalert2';
 import { closeModal } from '../helpers';
 const updateRole = ref(null);
-const emit = defineEmits(['role-created']);
+const emit = defineEmits(['role-updated']);
 defineProps({ selectedRow: Object });
 
 onMounted(() => {

@@ -3,33 +3,33 @@ import { Head, usePage } from '@inertiajs/vue3';
 import DataTable from 'datatables.net-vue3';
 import DataTablesCore from 'datatables.net-bs5';
 import Breadcrumb from '../partials/Breadcrumb.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import RoleCreate from '../Layouts/RoleCreate.vue';
 import RoleUpdate from '../Layouts/RoleUpdate.vue';
 import Select from 'datatables.net-select';
 import { Modal } from 'bootstrap';
-
-defineProps({ isAdmin: Boolean, roles: Object });
-
 DataTable.use(Select);
 DataTable.use(DataTablesCore);
+
+defineProps({ isAdmin: Boolean, roles: Object });
+const emit = defineEmits(['update-role']);
 let dt;
 const table = ref();
 const selectedRow = ref(null);
-let roles = usePage().props.roles;
-const data = ref(
-  Object.values(roles).map(
-    ({ id, name, description, created_at, updated_at }) => {
-      return [id, name, description, created_at, updated_at];
-    },
-  ),
-);
+const data = ref(usePage().props.roles);
 const options = {
   searching: false,
   info: false,
   ordering: false,
   paging: false,
   select: true,
+  columns: [
+    { data: 'id' },
+    { data: 'name' },
+    { data: 'description' },
+    { data: 'created_at' },
+    { data: 'updated_at' },
+  ],
   columnDefs: [
     {
       targets: [0, 4],
@@ -37,20 +37,17 @@ const options = {
     },
   ],
 };
-const emit = defineEmits(['update-role']);
+
 onMounted(() => {
   dt = table.value.dt;
 });
 
-function create({ id, name, description, created_at, updated_at }) {
-  // roles.push(role);
-  data.value.push([id, name, description, created_at, updated_at]);
+function create(role) {
+  data.value.push(role);
 }
 function update(role) {
-  console.log(role, data.value);
-  let idx = data.value.find((r) => r.id == role.id);
+  let idx = data.value.findIndex((r) => r.id === role.id);
   data.value[idx] = role;
-  console.log(idx);
 }
 function remove(roleId) {
   dt.rows({ selected: true }).every(function () {
@@ -61,8 +58,7 @@ function remove(roleId) {
 function showUpdateModal() {
   const selected = dt.row('.selected');
   if (selected.index() === 0) return; // admin
-  const [id, name, description, created_at, updated_at] = selected.data();
-  selectedRow.value = { id, name, description, created_at, updated_at };
+  selectedRow.value = selected.data();
   Modal.getOrCreateInstance('#update-role-modal').show();
 }
 </script>
