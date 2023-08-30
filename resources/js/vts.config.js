@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import Vts from 'vts-form';
+import Vts from 'vts.js';
 
 Vts.setDefaults({
   ajax: {

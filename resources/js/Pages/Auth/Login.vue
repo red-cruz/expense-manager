@@ -47,7 +47,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import ThemeToggle from '../../Partials/ThemeToggle.vue';
-import Vts from 'vts-form';
+import Vts from 'vts.js';
 import '../../vts.config';
 import { onMounted } from 'vue';
 import Swal from 'sweetalert2';

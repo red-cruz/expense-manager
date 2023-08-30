@@ -51,7 +51,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import Modal from './Modal.vue';
-import Vts from 'vts-form';
+import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
 const updateexpenseCategory = ref(null);
