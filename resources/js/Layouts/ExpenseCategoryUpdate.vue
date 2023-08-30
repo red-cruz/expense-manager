@@ -54,12 +54,11 @@ import Modal from './Modal.vue';
 import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
-const updateexpenseCategory = ref(null);
 const emit = defineEmits(['expenseCategory-updated']);
 defineProps({ selectedRow: Object });
 
 onMounted(() => {
-  updateexpenseCategory.value = new Vts('update-expenseCategory-form', {
+  new Vts('update-expenseCategory-form', {
     ajax: {
       success: ({ message, expenseCategory }, response, form) => {
         notify({ text: message });

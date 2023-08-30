@@ -54,12 +54,10 @@ import Modal from './Modal.vue';
 import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
-const updateRole = ref(null);
 const emit = defineEmits(['role-updated']);
 defineProps({ selectedRow: Object });
-
 onMounted(() => {
-  updateRole.value = new Vts('update-role-form', {
+  new Vts('update-role-form', {
     ajax: {
       success: ({ message, role }, response, form) => {
         notify({ text: message });

@@ -73,13 +73,12 @@ import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
 import { usePage } from '@inertiajs/vue3';
-const updateexpense = ref(null);
 const emit = defineEmits(['expense-updated']);
 const categories = ref(usePage().props.expenseCategories);
 defineProps({ selectedRow: Object });
 
 onMounted(() => {
-  updateexpense.value = new Vts('update-expense-form', {
+  new Vts('update-expense-form', {
     ajax: {
       success: ({ message, expense }, response, form) => {
         notify({ text: message });

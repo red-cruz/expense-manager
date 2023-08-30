@@ -64,12 +64,11 @@ import Modal from './Modal.vue';
 import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
-const updateuser = ref(null);
 const emit = defineEmits(['user-updated']);
 defineProps({ selectedRow: Object, roles: Object });
 
 onMounted(() => {
-  updateuser.value = new Vts('update-user-form', {
+  new Vts('update-user-form', {
     ajax: {
       success: ({ message, user }, response, form) => {
         notify({ text: message });

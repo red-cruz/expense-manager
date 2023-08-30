@@ -67,11 +67,10 @@ import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
 import { usePage } from '@inertiajs/vue3';
-const addexpense = ref(null);
 const emit = defineEmits(['expense-created']);
 const categories = ref(usePage().props.expenseCategories);
 onMounted(() => {
-  addexpense.value = new Vts('add-expense-form', {
+  new Vts('add-expense-form', {
     ajax: {
       success: ({ message, expense }, response, form) => {
         notify({ text: message });

@@ -49,11 +49,10 @@ import Modal from './Modal.vue';
 import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
-const addexpenseCategory = ref(null);
 const emit = defineEmits(['expenseCategory-created']);
 
 onMounted(() => {
-  addexpenseCategory.value = new Vts('add-expenseCategory-form', {
+  new Vts('add-expenseCategory-form', {
     ajax: {
       success: ({ message, expenseCategory }, response, form) => {
         notify({ text: message });

@@ -53,11 +53,10 @@ import Modal from './Modal.vue';
 import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
-const adduser = ref(null);
 const emit = defineEmits(['user-created']);
 defineProps({ roles: Object });
 onMounted(() => {
-  adduser.value = new Vts('add-user-form', {
+  new Vts('add-user-form', {
     ajax: {
       success: ({ message, user }, response, form) => {
         notify({ text: message });

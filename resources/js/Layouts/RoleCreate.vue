@@ -43,11 +43,10 @@ import Modal from './Modal.vue';
 import Vts from 'vts.js';
 import Swal from 'sweetalert2';
 import { closeModal, notify } from '../helpers';
-const addRole = ref(null);
 const emit = defineEmits(['role-created']);
 
 onMounted(() => {
-  addRole.value = new Vts('add-role-form', {
+  new Vts('add-role-form', {
     ajax: {
       success: ({ message, role }, response, form) => {
         notify({ text: message });
